@@ -32,7 +32,7 @@ public class IntraTourneeInfos {
 		this.vehicule = null;
 		this.oldPosition = -1;
 		this.newPosition = -1;
-		this.diffCout = 0.0;
+		this.diffCout = Double.MAX_VALUE;
 	}
 
 	/**
@@ -66,6 +66,25 @@ public class IntraTourneeInfos {
 	 * @return boolean
 	 */
 	public boolean doDeplacementIntraTournee() {
-		
+		return true;
 	}
+
+	public Vehicule getVehicule() {
+		return vehicule;
+	}
+
+	public int getOldPosition() {
+		return oldPosition;
+	}
+
+	public int getNewPosition() {
+		return newPosition;
+	}
+
+	public double getDiffCout() {
+		return diffCout;
+	}
+
+	
+
 }

@@ -213,10 +213,15 @@ public class Planning implements Serializable {
 	 * @return boolean
 	 */
 	public boolean deplacementIntraVehicule() {
+		IntraTourneeInfos intraTourneeInfos = null;
 		for (Vehicule v : this.ensVehicules) {
-			IntraTourneeInfos intraTourneeInfos = v.deplacementIntraVehicule();
+			intraTourneeInfos = v.deplacementIntraVehicule();
 		}
-		return true;
+		if (intraTourneeInfos.getDiffCout() < 0) {
+			intraTourneeInfos.doDeplacementIntraTournee();
+			return true;
+		}
+		return false;
 	}
 
 }
