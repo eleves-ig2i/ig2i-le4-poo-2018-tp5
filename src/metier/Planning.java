@@ -221,8 +221,7 @@ public class Planning implements Serializable {
 			}
 		}
 		if (intraTourneeInfos.getDiffCout() < 0) {
-			intraTourneeInfos.doDeplacementIntraTournee();
-			return true;
+			return intraTourneeInfos.doDeplacementIntraTournee();
 		}
 		return false;
 	}

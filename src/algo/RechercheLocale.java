@@ -48,12 +48,12 @@ public class RechercheLocale {
 			//CHECKSTYLE:OFF: LocalVariableNameCheck
 			RechercheLocale rL = new RechercheLocale(inst);
 			//CHECKSTYLE:ON
-			if (rL.deplacementIntraVehicule()) {
-				System.out.println("Instance : " + inst.getNom()
-						+ "\tCout : " + inst.getCoutPlanning()
-						+ "\tNb vehicules : " + inst.getnPlanning().getEnsVehicules().size());
+			while (rL.deplacementIntraVehicule()) {
 				instanceManager.update(inst);
 			}
+			System.out.println("Instance : " + inst.getNom()
+					+ "\tCout : " + inst.getCoutPlanning()
+					+ "\tNb vehicules : " + inst.getnPlanning().getEnsVehicules().size());
 		}
 
 	}
