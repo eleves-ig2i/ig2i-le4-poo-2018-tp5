@@ -437,7 +437,8 @@ public class Vehicule implements Serializable {
 	 * @return IntraTourneeInfos
 	 */
 	private IntraTourneeInfos evaluerDeplacement(Client c, int newPosition) {
-		double diffCout = this.calculerDeltaCout(c, c.getPosition()) - this.calculerDeltaCout(c, newPosition);
+		double diffCout = this.calculerDeltaCout(c, c.getPosition()) 
+				- this.calculerDeltaCout(c, newPosition);
 
 		return new IntraTourneeInfos(this,c.getPosition(),newPosition,diffCout);
 	}

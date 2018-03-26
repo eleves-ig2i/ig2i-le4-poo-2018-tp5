@@ -42,10 +42,12 @@ public class RechercheLocale {
 					+ "\tCout : " + inst.getCoutPlanning()
 					+ "\tNb vehicules : " + inst.getnPlanning().getEnsVehicules().size());
 			instanceManager.update(inst);
-		}		
+		}
 		System.out.println("\n\n\n");
 		for (Instance inst : instanceManager.findAll()) {
+			//CHECKSTYLE:OFF: LocalVariableNameCheck
 			RechercheLocale rL = new RechercheLocale(inst);
+			//CHECKSTYLE:ON
 			if (rL.deplacementIntraVehicule()) {
 				System.out.println("Instance : " + inst.getNom()
 						+ "\tCout : " + inst.getCoutPlanning()
@@ -53,6 +55,6 @@ public class RechercheLocale {
 				instanceManager.update(inst);
 			}
 		}
-		
+
 	}
 }
