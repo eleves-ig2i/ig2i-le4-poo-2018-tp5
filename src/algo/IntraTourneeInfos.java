@@ -1,5 +1,7 @@
 package algo;
 
+import java.util.ArrayList;
+import metier.Client;
 import metier.Vehicule;
 
 /**
@@ -66,7 +68,24 @@ public class IntraTourneeInfos {
 	 * @return boolean
 	 */
 	public boolean doDeplacementIntraTournee() {
-		return true;
+		if (this.vehicule == null) {
+			return false;
+		}
+		if (this.diffCout == Double.MAX_VALUE) {
+			return false;
+		}
+		if (this.newPosition == -1 || this.oldPosition == -1) {
+			return false;
+		}
+		
+		ArrayList clients = new ArrayList(this.vehicule.getEnsClients());
+		Client c = (Client) clients.get(this.oldPosition);
+		Double oldCout = this.vehicule.calculerDeltaCout(c, this.oldPosition);
+		
+		this.vehicule.setCout(this.vehicule.getCout() - oldCout);
+		this.vehicule.getNplanning().setCout(this.vehicule.getNplanning().getCout() - oldCout);
+		
+		return this.vehicule.addClientByPos(c, this.newPosition);
 	}
 
 	public Vehicule getVehicule() {
@@ -84,7 +103,5 @@ public class IntraTourneeInfos {
 	public double getDiffCout() {
 		return diffCout;
 	}
-
-	
 
 }

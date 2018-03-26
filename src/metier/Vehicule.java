@@ -310,7 +310,7 @@ public class Vehicule implements Serializable {
 	 * @param pos TODO
 	 * @return boolean
 	 */
-	private boolean addClientByPos(Client c, int pos) {
+	public boolean addClientByPos(Client c, int pos) {
 		if (c == null) {
 			return false;
 		}
@@ -339,7 +339,7 @@ public class Vehicule implements Serializable {
 	 * @param pos TODO
 	 * @return double
 	 */
-	private double calculerDeltaCout(Client c, int pos) {
+	public double calculerDeltaCout(Client c, int pos) {
 		if (pos < 0 || pos > ensClients.size()) {
 			return Double.MAX_VALUE;
 		}
