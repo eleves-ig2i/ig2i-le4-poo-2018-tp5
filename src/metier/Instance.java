@@ -211,4 +211,15 @@ public class Instance implements Serializable {
 		return this.nplanning.check();
 	}
 
+	/**
+	 * Permet de déterminer si un planning a été amélioré ou pas.
+	 * @return boolean
+	 */
+	public boolean deplacementIntraVehicule() {
+		if (this.nplanning == null) {
+			return false;
+		}
+		return this.nplanning.deplacementIntraVehicule();
+	}
+
 }

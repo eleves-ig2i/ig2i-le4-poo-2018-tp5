@@ -1,5 +1,6 @@
 package metier;
 
+import algo.IntraTourneeInfos;
 import algo.MeilleureInsertionInfos;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -309,7 +310,7 @@ public class Vehicule implements Serializable {
 	 * @param pos TODO
 	 * @return boolean
 	 */
-	private boolean addClientByPos(Client c, int pos) {
+	public boolean addClientByPos(Client c, int pos) {
 		if (c == null) {
 			return false;
 		}
@@ -338,7 +339,7 @@ public class Vehicule implements Serializable {
 	 * @param pos TODO
 	 * @return double
 	 */
-	private double calculerDeltaCout(Client c, int pos) {
+	public double calculerDeltaCout(Client c, int pos) {
 		if (pos < 0 || pos > ensClients.size()) {
 			return Double.MAX_VALUE;
 		}
@@ -408,4 +409,37 @@ public class Vehicule implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Retourne les infos sur le déplacment intra d'un véhicule.
+	 * @return IntraTourneeInfos
+	 */
+	public IntraTourneeInfos deplacementIntraVehicule() {
+		IntraTourneeInfos intraInfos = new IntraTourneeInfos();
+		int nbClients = this.ensClients.size();
+		for (int i = 0; i < nbClients; i++) {
+			int posClient = i;
+			for (int pos = 1; pos < nbClients; pos++) {
+				if (pos != posClient) {
+					IntraTourneeInfos intraInfosNew = evaluerDeplacement(this.ensClients.get(i),pos);
+					if (intraInfosNew.getDiffCout() < intraInfos.getDiffCout()) {
+						intraInfos = new IntraTourneeInfos(intraInfosNew);
+					}
+				}
+			}
+		}
+		return intraInfos;
+	}
+
+	/**
+	 * Retourne les données représentant l'évaluation du déplacement d'un client.
+	 * @param c TODO
+	 * @param newPosition TODO
+	 * @return IntraTourneeInfos
+	 */
+	private IntraTourneeInfos evaluerDeplacement(Client c, int newPosition) {
+		double diffCout = this.calculerDeltaCout(c, c.getPosition())
+				- this.calculerDeltaCout(c, newPosition);
+
+		return new IntraTourneeInfos(this,c.getPosition(),newPosition,diffCout);
+	}
 }
