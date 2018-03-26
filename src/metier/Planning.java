@@ -1,5 +1,6 @@
 package metier;
 
+import algo.IntraTourneeInfos;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -205,6 +206,17 @@ public class Planning implements Serializable {
 			return false;
 		}
 		return this.ensVehicules.remove(v);
+	}
+
+	/**
+	 * Permet de déterminer si un planning a été amélioré ou pas.
+	 * @return boolean
+	 */
+	public boolean deplacementIntraVehicule() {
+		for (Vehicule v : this.ensVehicules) {
+			IntraTourneeInfos intraTourneeInfos = v.deplacementIntraVehicule();
+		}
+		return true;
 	}
 
 }

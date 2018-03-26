@@ -60,4 +60,12 @@ public class IntraTourneeInfos {
 		this.diffCout = intraTourneeInfos.diffCout;
 	}
 
+	/**
+	 * Méthode exécutant le déplacement qui permet d’améliorer le plus la
+	 * solution courante.
+	 * @return boolean
+	 */
+	public boolean doDeplacementIntraTournee() {
+		
+	}
 }
