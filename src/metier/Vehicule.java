@@ -442,4 +442,134 @@ public class Vehicule implements Serializable {
 
 		return new IntraTourneeInfos(this,c.getPosition(),newPosition,diffCout);
 	}
+
+	/**
+	 * Retourne les infos sur l'échange intra d'un véhicule.
+	 * @return IntraTourneeInfos
+	 */
+	public IntraTourneeInfos echangeIntraVehicule() {
+		IntraTourneeInfos intraInfos = new IntraTourneeInfos();
+		int nbClients = this.ensClients.size();
+		for (int c1 = 0; c1 < nbClients; c1++) {
+			for (int c2 = 0; c2 < nbClients; c2++) {
+				if (c1 != c2) {
+					IntraTourneeInfos intraInfosNew = evaluerEchange(c1,c2);
+					if (intraInfosNew.getDiffCout() < intraInfos.getDiffCout()) {
+						intraInfos = new IntraTourneeInfos(intraInfosNew);
+					}
+				}
+			}
+		}
+		return intraInfos;
+	}
+
+	/**
+	 * Retourne les données représentant l'évaluation de l'échange de 2 clients.
+	 * @param posClient1 TODO
+	 * @param posClient2 TODO
+	 * @return IntraTourneeInfos
+	 */
+	private IntraTourneeInfos evaluerEchange(int posClient1, int posClient2) {
+		double diffCout = this.calculerDeltaCoutEchange(posClient1, posClient2);
+		return new IntraTourneeInfos(this,posClient1,posClient2,diffCout);
+	}
+
+	/**
+	 * Permet de calculer le coût delta représentant l'échange de deux clients. 
+	 * @param posClient1 TODO
+	 * @param posClient2 TODO
+	 * @return double
+	 */
+	public double calculerDeltaCoutEchange(int posClient1, int posClient2) {
+		if (posClient1 < 0 || posClient1 > ensClients.size()) {
+			return Double.MAX_VALUE;
+		}
+
+		if (posClient2 < 0 || posClient2 > ensClients.size()) {
+			return Double.MAX_VALUE;
+		}
+
+		Point prec1 = ndepot;
+		Point prec2 = ndepot;
+		Point next1 = ndepot;
+		Point next2 = ndepot;
+		Point c1 = ensClients.get(posClient1);
+		Point c2 = ensClients.get(posClient2);
+		
+		if (posClient1 > 0) {
+			prec1 = ensClients.get(posClient1 - 1);
+		}
+		if (posClient2 > 0) {
+			prec2 = ensClients.get(posClient2 - 1);
+		}
+
+		if (posClient1 < ensClients.size() - 1) {
+			next1 = ensClients.get(posClient1 + 1);
+		}
+		if (posClient2 < ensClients.size() - 1) {
+			next2 = ensClients.get(posClient2 + 1);
+		}
+
+		double previousDistance = 0;
+
+		if (posClient1 == (posClient2 - 1) || (posClient1 + 1) == posClient2 
+				|| posClient2 == (posClient1 - 1) || (posClient2 + 1) == posClient1) {
+
+			if (!prec1.equals(next1) || !prec2.equals(next2)) {
+				previousDistance = prec1.getDistanceTo(c1) + c1.getDistanceTo(c2)
+						+ c2.getDistanceTo(next2);
+			}
+
+			return prec1.getDistanceTo(c2) + c2.getDistanceTo(c1) 
+					+ c1.getDistanceTo(next2) - previousDistance;
+		}
+		else {
+
+			if (!prec1.equals(next1) || !prec2.equals(next2)) {
+				previousDistance = prec1.getDistanceTo(c1) + c1.getDistanceTo(next1)
+						+ prec2.getDistanceTo(c2) + c2.getDistanceTo(next2);
+			}
+
+			return prec1.getDistanceTo(c2) + c2.getDistanceTo(next1) 
+					+ prec2.getDistanceTo(c1) + c1.getDistanceTo(next2) - previousDistance;
+		}
+	}
+
+	/**
+	 * Méthode exécutant le déplacement qui permet d’améliorer le plus la
+	 * solution courante.
+	 * @param intraTourneeInfos TODO
+	 * @return boolean
+	 */
+	public boolean doDeplacementIntraTournee(IntraTourneeInfos intraTourneeInfos) {
+		Client c = (Client) ensClients.get(intraTourneeInfos.getOldPosition());
+		this.setCout(this.getCout() + intraTourneeInfos.getDiffCout());
+		System.out.println(intraTourneeInfos.getDiffCout());
+		this.getNplanning().setCout(this.getNplanning().getCout() + intraTourneeInfos.getDiffCout());
+
+		return this.addClientByPos(c, intraTourneeInfos.getNewPosition());
+	}
+
+	/**
+	 * Méthode exécutant l'échange qui permet d’améliorer le plus la
+	 * solution courante.
+	 * @param intraTourneeInfos TODO
+	 * @return boolean
+	 */
+	public boolean doEchangeIntraTournee(IntraTourneeInfos intraTourneeInfos) {
+		Client c1 = (Client) ensClients.get(intraTourneeInfos.getOldPosition());
+		Client c2 = (Client) ensClients.get(intraTourneeInfos.getNewPosition());
+
+		this.setCout(this.getCout() + intraTourneeInfos.getDiffCout());
+		this.getNplanning().setCout(this.getNplanning().getCout() +
+				intraTourneeInfos.getDiffCout());
+
+		if (this.addClientByPos(c1, intraTourneeInfos.getNewPosition()) 
+				&& this.addClientByPos(c2,intraTourneeInfos.getOldPosition())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

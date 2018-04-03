@@ -226,4 +226,22 @@ public class Planning implements Serializable {
 		return false;
 	}
 
+	/**
+	 * Permet de déterminer si un planning a été amélioré ou pas par échange de
+	 * véhicule.
+	 * @return boolean
+	 */
+	public boolean echangeIntraVehicule() {
+		IntraTourneeInfos intraTourneeInfos = new IntraTourneeInfos();
+		for (Vehicule v : this.ensVehicules) {
+			IntraTourneeInfos tmp = v.echangeIntraVehicule();
+			if (intraTourneeInfos.getDiffCout() > tmp.getDiffCout()) {
+				intraTourneeInfos = tmp;
+			}
+		}
+		if (intraTourneeInfos.getDiffCout() < 0) {
+			return intraTourneeInfos.doEchangeIntraTournee();
+		}
+		return false;
+	}
 }
