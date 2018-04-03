@@ -440,6 +440,7 @@ public class Vehicule implements Serializable {
 		double diffCout = this.calculerDeltaCout(c, c.getPosition())
 				- this.calculerDeltaCout(c, newPosition);
 
+		diffCout = this.calculerDeltaCoutDeplacement(c.getPosition(), newPosition);
 		return new IntraTourneeInfos(this,c.getPosition(),newPosition,diffCout);
 	}
 
@@ -472,6 +473,62 @@ public class Vehicule implements Serializable {
 	private IntraTourneeInfos evaluerEchange(int posClient1, int posClient2) {
 		double diffCout = this.calculerDeltaCoutEchange(posClient1, posClient2);
 		return new IntraTourneeInfos(this,posClient1,posClient2,diffCout);
+	}
+
+	/**
+	 * Permet de calculer le coût delta représentant le déplacment d'un client. 
+	 * @param oldPosition TODO
+	 * @param newPosition TODO
+	 * @return double
+	 */
+	public double calculerDeltaCoutDeplacement(int oldPosition, int newPosition) {
+		if (oldPosition < 0 || oldPosition > ensClients.size()) {
+			return Double.MAX_VALUE;
+		}
+
+		if (newPosition < 0 || newPosition > ensClients.size()) {
+			return Double.MAX_VALUE;
+		}
+
+		Point prec1 = ndepot;
+		Point prec2 = ndepot;
+		Point next1 = ndepot;
+		Point next2 = ndepot;
+		Point c1 = ensClients.get(oldPosition);
+		Point c2 = ensClients.get(newPosition);
+		
+		if (oldPosition > 0) {
+			prec1 = ensClients.get(oldPosition - 1);
+		}
+		if (newPosition > 0) {
+			prec2 = ensClients.get(newPosition - 1);
+		}
+
+		if (oldPosition < ensClients.size() - 1) {
+			next1 = ensClients.get(oldPosition + 1);
+		}
+		if (newPosition < ensClients.size() - 1) {
+			next2 = ensClients.get(newPosition + 1);
+		}
+
+		double previousDistance = 0;
+
+		if (oldPosition < newPosition) {
+			if (!prec1.equals(next1) || !prec2.equals(next2)) {
+				previousDistance = prec1.getDistanceTo(c1) + c1.getDistanceTo(next1)
+						+ c2.getDistanceTo(next2);
+			}
+			return prec1.getDistanceTo(next1) + c2.getDistanceTo(c1) 
+					+ c1.getDistanceTo(next2) - previousDistance;
+		}
+		else {
+			if (!prec1.equals(next1) || !prec2.equals(next2)) {
+				previousDistance = prec1.getDistanceTo(c1) + c1.getDistanceTo(next1)
+						+ prec2.getDistanceTo(c2);
+			}
+			return prec2.getDistanceTo(c1) + c1.getDistanceTo(c2) 
+					+ prec1.getDistanceTo(next1) - previousDistance;
+		}		
 	}
 
 	/**
@@ -544,7 +601,6 @@ public class Vehicule implements Serializable {
 	public boolean doDeplacementIntraTournee(IntraTourneeInfos intraTourneeInfos) {
 		Client c = (Client) ensClients.get(intraTourneeInfos.getOldPosition());
 		this.setCout(this.getCout() + intraTourneeInfos.getDiffCout());
-		System.out.println(intraTourneeInfos.getDiffCout());
 		this.getNplanning().setCout(this.getNplanning().getCout() + intraTourneeInfos.getDiffCout());
 
 		return this.addClientByPos(c, intraTourneeInfos.getNewPosition());

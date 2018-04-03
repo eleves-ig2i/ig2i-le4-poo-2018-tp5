@@ -46,7 +46,7 @@ public class RechercheLocale {
 		InstanceDao instanceManager = fabrique.getInstanceDao();
 		for (Instance inst : instanceManager.findAll()) {
 			HeuristiqueConstructive heur = new HeuristiqueConstructive(inst);
-			heur.insertionSimple();
+			heur.meilleureInsertion();
 			System.out.println("Instance : " + inst.getNom()
 					+ "\tCout : " + inst.getCoutPlanning()
 					+ "\tNb vehicules : " + inst.getnPlanning().getEnsVehicules().size());
@@ -60,9 +60,9 @@ public class RechercheLocale {
 			while (rL.deplacementIntraVehicule()) {
 				instanceManager.update(inst);
 			}
-			/*System.out.println("Instance : " + inst.getNom()
+			System.out.println("Instance : " + inst.getNom()
 					+ "\tCout : " + inst.getCoutPlanning()
-					+ "\tNb vehicules : " + inst.getnPlanning().getEnsVehicules().size());*/
+					+ "\tNb vehicules : " + inst.getnPlanning().getEnsVehicules().size());
 		}
 		/*System.out.println("\n\n\n");
 		for (Instance inst : instanceManager.findAll()) {
