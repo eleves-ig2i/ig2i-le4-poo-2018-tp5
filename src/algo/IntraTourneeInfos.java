@@ -68,9 +68,6 @@ public class IntraTourneeInfos {
 	 * @return boolean
 	 */
 	public boolean doDeplacementIntraTournee() {
-		if (this.vehicule == null) {
-			return false;
-		}
 		if (this.diffCout == Double.MAX_VALUE) {
 			return false;
 		}
@@ -78,14 +75,31 @@ public class IntraTourneeInfos {
 			return false;
 		}
 
-		ArrayList clients = new ArrayList(this.vehicule.getEnsClients());
-		Client c = (Client) clients.get(this.oldPosition);
-		Double oldCout = this.vehicule.calculerDeltaCout(c, this.oldPosition);
+		if (this.vehicule == null) {
+			return false;
+		} else {
+			return this.vehicule.doDeplacementIntraTournee(this);
+		}
+	}
 
-		this.vehicule.setCout(this.vehicule.getCout() - oldCout);
-		this.vehicule.getNplanning().setCout(this.vehicule.getNplanning().getCout() - oldCout);
+	/**
+	 * Méthode exécutant l'échange qui permet d’améliorer le plus la
+	 * solution courante.
+	 * @return boolean
+	 */
+	public boolean doEchangeIntraTournee() {
+		if (this.diffCout == Double.MAX_VALUE) {
+			return false;
+		}
+		if (this.newPosition == -1 || this.oldPosition == -1) {
+			return false;
+		}
 
-		return this.vehicule.addClientByPos(c, this.newPosition);
+		if (this.vehicule == null) {
+			return false;
+		} else {
+			return this.vehicule.doEchangeIntraTournee(this);
+		}
 	}
 
 	public Vehicule getVehicule() {

@@ -222,4 +222,16 @@ public class Instance implements Serializable {
 		return this.nplanning.deplacementIntraVehicule();
 	}
 
+	/**
+	 * Permet de déterminer si un planning a été amélioré ou pas par échange de
+	 * véhicule.
+	 * @return boolean
+	 */
+	public boolean echangeIntraVehicule() {
+		if (this.nplanning == null) {
+			return false;
+		}
+		return this.nplanning.echangeIntraVehicule();
+	}
+
 }
