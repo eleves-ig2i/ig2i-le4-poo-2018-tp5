@@ -67,7 +67,6 @@ public class RechercheLocale {
 		/*System.out.println("\n\n\n");
 		for (Instance inst : instanceManager.findAll()) {
 			//CHECKSTYLE:OFF: LocalVariableNameCheck
-			
 			RechercheLocale rL = new RechercheLocale(inst);
 			//CHECKSTYLE:ON
 			while (rL.echangeIntraVehicule()) {

@@ -476,7 +476,7 @@ public class Vehicule implements Serializable {
 	}
 
 	/**
-	 * Permet de calculer le coût delta représentant le déplacment d'un client. 
+	 * Permet de calculer le coût delta représentant le déplacment d'un client.
 	 * @param oldPosition TODO
 	 * @param newPosition TODO
 	 * @return double
@@ -496,7 +496,7 @@ public class Vehicule implements Serializable {
 		Point next2 = ndepot;
 		Point c1 = ensClients.get(oldPosition);
 		Point c2 = ensClients.get(newPosition);
-		
+
 		if (oldPosition > 0) {
 			prec1 = ensClients.get(oldPosition - 1);
 		}
@@ -518,21 +518,20 @@ public class Vehicule implements Serializable {
 				previousDistance = prec1.getDistanceTo(c1) + c1.getDistanceTo(next1)
 						+ c2.getDistanceTo(next2);
 			}
-			return prec1.getDistanceTo(next1) + c2.getDistanceTo(c1) 
+			return prec1.getDistanceTo(next1) + c2.getDistanceTo(c1)
 					+ c1.getDistanceTo(next2) - previousDistance;
-		}
-		else {
+		} else {
 			if (!prec1.equals(next1) || !prec2.equals(next2)) {
 				previousDistance = prec1.getDistanceTo(c1) + c1.getDistanceTo(next1)
 						+ prec2.getDistanceTo(c2);
 			}
-			return prec2.getDistanceTo(c1) + c1.getDistanceTo(c2) 
+			return prec2.getDistanceTo(c1) + c1.getDistanceTo(c2)
 					+ prec1.getDistanceTo(next1) - previousDistance;
-		}		
+		}
 	}
 
 	/**
-	 * Permet de calculer le coût delta représentant l'échange de deux clients. 
+	 * Permet de calculer le coût delta représentant l'échange de deux clients.
 	 * @param posClient1 TODO
 	 * @param posClient2 TODO
 	 * @return double
@@ -552,7 +551,7 @@ public class Vehicule implements Serializable {
 		Point next2 = ndepot;
 		Point c1 = ensClients.get(posClient1);
 		Point c2 = ensClients.get(posClient2);
-		
+
 		if (posClient1 > 0) {
 			prec1 = ensClients.get(posClient1 - 1);
 		}
@@ -569,7 +568,7 @@ public class Vehicule implements Serializable {
 
 		double previousDistance = 0;
 
-		if (posClient1 == (posClient2 - 1) || (posClient1 + 1) == posClient2 
+		if (posClient1 == (posClient2 - 1) || (posClient1 + 1) == posClient2
 				|| posClient2 == (posClient1 - 1) || (posClient2 + 1) == posClient1) {
 
 			if (!prec1.equals(next1) || !prec2.equals(next2)) {
@@ -577,17 +576,16 @@ public class Vehicule implements Serializable {
 						+ c2.getDistanceTo(next2);
 			}
 
-			return prec1.getDistanceTo(c2) + c2.getDistanceTo(c1) 
+			return prec1.getDistanceTo(c2) + c2.getDistanceTo(c1)
 					+ c1.getDistanceTo(next2) - previousDistance;
-		}
-		else {
+		} else {
 
 			if (!prec1.equals(next1) || !prec2.equals(next2)) {
 				previousDistance = prec1.getDistanceTo(c1) + c1.getDistanceTo(next1)
 						+ prec2.getDistanceTo(c2) + c2.getDistanceTo(next2);
 			}
 
-			return prec1.getDistanceTo(c2) + c2.getDistanceTo(next1) 
+			return prec1.getDistanceTo(c2) + c2.getDistanceTo(next1)
 					+ prec2.getDistanceTo(c1) + c1.getDistanceTo(next2) - previousDistance;
 		}
 	}
@@ -620,11 +618,10 @@ public class Vehicule implements Serializable {
 		this.getNplanning().setCout(this.getNplanning().getCout() +
 				intraTourneeInfos.getDiffCout());
 
-		if (this.addClientByPos(c1, intraTourneeInfos.getNewPosition()) 
+		if (this.addClientByPos(c1, intraTourneeInfos.getNewPosition())
 				&& this.addClientByPos(c2,intraTourneeInfos.getOldPosition())) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}

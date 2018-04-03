@@ -77,8 +77,7 @@ public class IntraTourneeInfos {
 
 		if (this.vehicule == null) {
 			return false;
-		}
-		else {
+		} else {
 			return this.vehicule.doDeplacementIntraTournee(this);
 		}
 	}
@@ -98,8 +97,7 @@ public class IntraTourneeInfos {
 
 		if (this.vehicule == null) {
 			return false;
-		}
-		else {
+		} else {
 			return this.vehicule.doEchangeIntraTournee(this);
 		}
 	}
