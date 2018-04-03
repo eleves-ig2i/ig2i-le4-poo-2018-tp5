@@ -615,8 +615,8 @@ public class Vehicule implements Serializable {
 		Client c2 = (Client) ensClients.get(intraTourneeInfos.getNewPosition());
 
 		this.setCout(this.getCout() + intraTourneeInfos.getDiffCout());
-		this.getNplanning().setCout(this.getNplanning().getCout() +
-				intraTourneeInfos.getDiffCout());
+		this.getNplanning().setCout(this.getNplanning().getCout()
+				+ intraTourneeInfos.getDiffCout());
 
 		if (this.addClientByPos(c1, intraTourneeInfos.getNewPosition())
 				&& this.addClientByPos(c2,intraTourneeInfos.getOldPosition())) {
